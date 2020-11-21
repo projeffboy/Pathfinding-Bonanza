@@ -1,5 +1,137 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6983989187218800706
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4338709304287213284}
+  - component: {fileID: 8159951530604641370}
+  m_Layer: 0
+  m_Name: Visible
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4338709304287213284
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6983989187218800706}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7582696582322537625}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!120 &8159951530604641370
+LineRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6983989187218800706}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 0
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Positions:
+  - {x: 0.00411129, y: -0.6290379, z: 0}
+  - {x: 1.0155056, y: -0.62081516, z: 1}
+  - {x: 1.0372641, y: -0.33635092, z: 1}
+  - {x: 0.3137467, y: -0.328892, z: 1}
+  - {x: 0.3137467, y: 0.19323385, z: 1}
+  - {x: 0.030306816, y: 0.18577468, z: 1}
+  m_Parameters:
+    serializedVersion: 3
+    widthMultiplier: 0.1
+    widthCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0.057849884
+        value: 0.52475166
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    colorGradient:
+      serializedVersion: 2
+      key0: {r: 0.39607844, g: 0.2627451, b: 0.12941177, a: 1}
+      key1: {r: 0.39607844, g: 0.2627451, b: 0.12941177, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+    numCornerVertices: 0
+    numCapVertices: 0
+    alignment: 0
+    textureMode: 0
+    shadowBias: 0.5
+    generateLightingData: 0
+  m_UseWorldSpace: 0
+  m_Loop: 1
 --- !u!1 &7582696582322537631
 GameObject:
   m_ObjectHideFlags: 0
@@ -30,7 +162,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.18, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 4338709304287213284}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -74,12 +207,12 @@ LineRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Positions:
-  - {x: 0.094601244, y: 0.20151854, z: 0}
-  - {x: 0.080127716, y: -0.5921492, z: 0}
-  - {x: 1.0859334, y: -0.59486884, z: 0}
-  - {x: 1.0859334, y: -0.23453557, z: 0}
-  - {x: 0.3774252, y: -0.21051341, z: 0}
-  - {x: 0.3894341, y: 0.1909575, z: 0}
+  - {x: -0.068734795, y: 0.3293277, z: 0}
+  - {x: -0.11432266, y: -0.7599894, z: 0}
+  - {x: 1.1348653, y: -0.7548841, z: 0}
+  - {x: 1.1437507, y: -0.20113027, z: 0}
+  - {x: 0.43750238, y: -0.20169163, z: 0}
+  - {x: 0.46280837, y: 0.31762916, z: 0}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.1
@@ -87,8 +220,8 @@ LineRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0.015063468
-        value: 1
+        time: 0.08056156
+        value: 0
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -147,7 +280,7 @@ PolygonCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
-  m_UsedByComposite: 0
+  m_UsedByComposite: 1
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
@@ -160,12 +293,12 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.34276348, y: -0.23879874}
-      - {x: 0.34206593, y: 0.16689834}
-      - {x: 0.12173277, y: 0.16781358}
-      - {x: 0.12465137, y: -0.5493184}
-      - {x: 1.0371069, y: -0.55792415}
-      - {x: 1.0400255, y: -0.25387448}
+    - - {x: 1.1140985, y: -0.23937833}
+      - {x: 0.40474916, y: -0.24112654}
+      - {x: 0.43037784, y: 0.27488634}
+      - {x: -0.027532995, y: 0.2822786}
+      - {x: -0.06391245, y: -0.7183314}
+      - {x: 1.0964361, y: -0.723793}
 --- !u!50 &1191139613
 Rigidbody2D:
   serializedVersion: 4
@@ -199,5 +332,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89c410138ecaa1b48bc7340971b6c9b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settings: {fileID: 0}
-  obstacles: {fileID: 0}
+  settings: {fileID: 11400000, guid: d1c1d485decd23444bb1b1eefe32796f, type: 2}
+  MinX: -4
+  MaxX: -1.75
+  MinY: -0.2
+  MaxY: 1.6

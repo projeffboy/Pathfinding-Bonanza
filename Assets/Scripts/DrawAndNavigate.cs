@@ -14,7 +14,7 @@ public class DrawAndNavigate : MonoBehaviour {
 
     public Vector3[] Path;
 
-    private float waitStart = 0.5f;
+    private float waitStart = 0.05f;
     private Vector3 target;
     private VisibilityGraph graph;
 
@@ -26,17 +26,18 @@ public class DrawAndNavigate : MonoBehaviour {
         // Vector3 source = transform.localPosition;
         target = new Vector2(1.74f, -0.18f);
 
-        List<LineRenderer> obstacles = new List<LineRenderer> {
-            Obstacle1, Obstacle2, Obstacle3
-        };
-        if (!settings.IsRandom || Random.value > 0.5) {
-            obstacles.Add(Obstacle4);
-        } else {
-            Destroy(Obstacle4);
+        List<LineRenderer> obstacles = new List<LineRenderer>();
+        obstacles.Add(Obstacle1);
+        obstacles.Add(Obstacle2);
+        obstacles.Add(Obstacle3);
+        obstacles.Add(Obstacle4);
+        if (!settings.IsRandom || Random.value < 0.5) {
+            Destroy(obstacles[0]);
+            obstacles.RemoveAt(0);
         }
 
         Vector3[] obstaclePts = new Vector3[6];
-        Obstacle1.GetPositions(obstaclePts); // obstacles 1-4 have the same local points though and this returns local points
+        obstacles[0].GetPositions(obstaclePts); // obstacles 1-4 have the same local points though and this returns local points
 
         Color colorAAA = new Color(0.66f, 0.66f, 0.66f);
 
@@ -273,8 +274,8 @@ public class DrawAndNavigate : MonoBehaviour {
         return null;
     }
 
+    /*
     void Update() {
-        /*
         if (Time.time > waitStart + 0.1f && Path != null) {
             float step = Time.deltaTime * Speed;
             
@@ -282,6 +283,6 @@ public class DrawAndNavigate : MonoBehaviour {
                 transform.position, Path[1], step
             );
         }
-        */
     }
+    */
 }

@@ -227,75 +227,13 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ec4f4412fa052f4c96d86ced0967d14, type: 3}
---- !u!120 &61780161 stripped
-LineRenderer:
-  m_CorrespondingSourceObject: {fileID: 7582696582322537624, guid: 0ec4f4412fa052f4c96d86ced0967d14,
-    type: 3}
-  m_PrefabInstance: {fileID: 61780160}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &153342071 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7582696582322537625, guid: 0ec4f4412fa052f4c96d86ced0967d14,
     type: 3}
   m_PrefabInstance: {fileID: 1084206417}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &218585727 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4877103403581483816, guid: b026f3cb46273cd409a46bb27b831c5f,
-    type: 3}
-  m_PrefabInstance: {fileID: 2034378077}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &218585728
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 218585727}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 561d3e18814dc81499d9cfabc62d6d79, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settings: {fileID: 11400000, guid: d1c1d485decd23444bb1b1eefe32796f, type: 2}
-  BoundaryTolerance: 0.75
-  Speed: 1
-  Boundaries: {fileID: 715246748}
-  Obstacle1: {fileID: 261582716}
-  Obstacle2: {fileID: 61780161}
-  Obstacle3: {fileID: 1705888068}
-  Obstacle4: {fileID: 1084206418}
-  Path: []
---- !u!58 &218585729
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 218585727}
-  m_Enabled: 0
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.1
---- !u!114 &218585730
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 218585727}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45f2648e92462ca4ba0f84948e426229, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settings: {fileID: 11400000, guid: d1c1d485decd23444bb1b1eefe32796f, type: 2}
---- !u!120 &261582716 stripped
+--- !u!120 &173132259 stripped
 LineRenderer:
   m_CorrespondingSourceObject: {fileID: 7582696582322537624, guid: 0ec4f4412fa052f4c96d86ced0967d14,
     type: 3}
@@ -313,7 +251,7 @@ GameObject:
   - component: {fileID: 266591257}
   m_Layer: 0
   m_Name: Barbed Wire
-  m_TagString: Untagged
+  m_TagString: Barbed Wire
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -376,6 +314,7 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420030}
+  - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -403,7 +342,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fe9f454c020ccd459ce2841092bcdda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  point: {fileID: 4877103403581483816, guid: b026f3cb46273cd409a46bb27b831c5f, type: 3}
+  settings: {fileID: 11400000, guid: d1c1d485decd23444bb1b1eefe32796f, type: 2}
+  point: {fileID: 4877103403581483816, guid: a533688e146151141af20cc70903325b, type: 3}
+  NumberOfAgents: 80
+  obstacles: {fileID: 1964976694}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -461,6 +403,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &519420033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 561d3e18814dc81499d9cfabc62d6d79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settings: {fileID: 11400000, guid: d1c1d485decd23444bb1b1eefe32796f, type: 2}
+  BoundaryTolerance: 0.75
+  Speed: 1
+  Boundaries: {fileID: 715246748}
+  Obstacle1: {fileID: 173132259}
+  Obstacle2: {fileID: 1439650791}
+  Obstacle3: {fileID: 1598996898}
+  Obstacle4: {fileID: 982452104}
+  Path: []
 --- !u!1 &715246747
 GameObject:
   m_ObjectHideFlags: 0
@@ -718,6 +681,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1705888067}
   m_PrefabAsset: {fileID: 0}
+--- !u!120 &982452104 stripped
+LineRenderer:
+  m_CorrespondingSourceObject: {fileID: 7582696582322537624, guid: 0ec4f4412fa052f4c96d86ced0967d14,
+    type: 3}
+  m_PrefabInstance: {fileID: 1084206417}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1084206417
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -818,11 +787,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ec4f4412fa052f4c96d86ced0967d14, type: 3}
---- !u!120 &1084206418 stripped
+--- !u!120 &1439650791 stripped
 LineRenderer:
   m_CorrespondingSourceObject: {fileID: 7582696582322537624, guid: 0ec4f4412fa052f4c96d86ced0967d14,
     type: 3}
-  m_PrefabInstance: {fileID: 1084206417}
+  m_PrefabInstance: {fileID: 61780160}
+  m_PrefabAsset: {fileID: 0}
+--- !u!120 &1598996898 stripped
+LineRenderer:
+  m_CorrespondingSourceObject: {fileID: 7582696582322537624, guid: 0ec4f4412fa052f4c96d86ced0967d14,
+    type: 3}
+  m_PrefabInstance: {fileID: 1705888067}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1705888067
 PrefabInstance:
@@ -930,12 +905,6 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ec4f4412fa052f4c96d86ced0967d14, type: 3}
---- !u!120 &1705888068 stripped
-LineRenderer:
-  m_CorrespondingSourceObject: {fileID: 7582696582322537624, guid: 0ec4f4412fa052f4c96d86ced0967d14,
-    type: 3}
-  m_PrefabInstance: {fileID: 1705888067}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1818242815 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7582696582322537625, guid: 0ec4f4412fa052f4c96d86ced0967d14,
@@ -1095,12 +1064,12 @@ PrefabInstance:
     - target: {fileID: 4877103403581483817, guid: b026f3cb46273cd409a46bb27b831c5f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.68
+      value: -3.04
       objectReference: {fileID: 0}
     - target: {fileID: 4877103403581483817, guid: b026f3cb46273cd409a46bb27b831c5f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.98
+      value: -1.68
       objectReference: {fileID: 0}
     - target: {fileID: 4877103403581483817, guid: b026f3cb46273cd409a46bb27b831c5f,
         type: 3}
@@ -1162,32 +1131,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1964976695}
     m_Modifications:
-    - target: {fileID: 2335475471767225674, guid: 0ec4f4412fa052f4c96d86ced0967d14,
-        type: 3}
-      propertyPath: settings
-      value: 
-      objectReference: {fileID: 11400000, guid: d1c1d485decd23444bb1b1eefe32796f,
-        type: 2}
-    - target: {fileID: 2335475471767225674, guid: 0ec4f4412fa052f4c96d86ced0967d14,
-        type: 3}
-      propertyPath: MinX
-      value: -4
-      objectReference: {fileID: 0}
-    - target: {fileID: 2335475471767225674, guid: 0ec4f4412fa052f4c96d86ced0967d14,
-        type: 3}
-      propertyPath: MaxY
-      value: 1.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2335475471767225674, guid: 0ec4f4412fa052f4c96d86ced0967d14,
-        type: 3}
-      propertyPath: MinY
-      value: -0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2335475471767225674, guid: 0ec4f4412fa052f4c96d86ced0967d14,
-        type: 3}
-      propertyPath: MaxX
-      value: -1.75
-      objectReference: {fileID: 0}
     - target: {fileID: 7582696582322537625, guid: 0ec4f4412fa052f4c96d86ced0967d14,
         type: 3}
       propertyPath: m_LocalPosition.x
