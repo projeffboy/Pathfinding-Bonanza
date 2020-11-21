@@ -343,9 +343,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   settings: {fileID: 11400000, guid: d1c1d485decd23444bb1b1eefe32796f, type: 2}
-  point: {fileID: 4877103403581483816, guid: a533688e146151141af20cc70903325b, type: 3}
+  AgentPrefab: {fileID: 4877103403581483816, guid: a533688e146151141af20cc70903325b,
+    type: 3}
+  TargetPrefab: {fileID: 4877103403581483816, guid: 268e375443bc30f4b81cd88d24686733,
+    type: 3}
   NumberOfAgents: 80
-  obstacles: {fileID: 1964976694}
+  Obstacles: {fileID: 1964976694}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -410,7 +413,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 561d3e18814dc81499d9cfabc62d6d79, type: 3}
   m_Name: 
