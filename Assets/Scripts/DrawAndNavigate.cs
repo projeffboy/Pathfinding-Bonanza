@@ -146,7 +146,7 @@ public class DrawAndNavigate : MonoBehaviour {
 
                         DrawVisibilityEdge(
                             obstaclePtWorld, obstaclePtWorldToCompare,
-                            Color.yellow, true
+                            Color.yellow, true, true
                         );
                     }
                 }
@@ -216,7 +216,8 @@ public class DrawAndNavigate : MonoBehaviour {
 
     private Vector3[] DrawVisibilityEdge(
         Vector3 from, Vector3 to,
-        Color color, bool bitangence = false, bool considerBoundaries = false
+        Color color,
+        bool bitangence = false, bool considerBoundaries = false
     ) {
         bool hitCollider = false;
         RaycastHit2D hit = Physics2D.Raycast(
