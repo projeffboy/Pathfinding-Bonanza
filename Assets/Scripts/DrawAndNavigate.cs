@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DrawAndNavigate : MonoBehaviour {
-    public bool IsRandom = false;
+    public Settings settings;
     public float BoundaryTolerance = 0.5f;
     public float Speed = 0.5f;
     public LineRenderer Boundaries;
@@ -14,24 +14,26 @@ public class DrawAndNavigate : MonoBehaviour {
 
     public Vector3[] Path;
 
-    private Vector3 Target;
+    private float waitStart = 0.5f;
+    private Vector3 target;
     private VisibilityGraph graph;
 
     void Start() {
-        Vector3 source = transform.localPosition;
-        Target = new Vector2(1.74f, -0.18f);
+        Invoke("Initialize", waitStart);
+    }
+
+    private void Initialize() {
+        // Vector3 source = transform.localPosition;
+        target = new Vector2(1.74f, -0.18f);
 
         List<LineRenderer> obstacles = new List<LineRenderer> {
             Obstacle1, Obstacle2, Obstacle3
         };
-        if (!IsRandom || Random.value > 0.5) {
+        if (!settings.IsRandom || Random.value > 0.5) {
             obstacles.Add(Obstacle4);
         } else {
             Destroy(Obstacle4);
         }
-        /*foreach (LineRenderer obstacles in obstacles) {
-
-        }*/
 
         Vector3[] obstaclePts = new Vector3[6];
         Obstacle1.GetPositions(obstaclePts); // obstacles 1-4 have the same local points though and this returns local points
@@ -52,8 +54,8 @@ public class DrawAndNavigate : MonoBehaviour {
 
         /* ADD VERTICES TO VISIBILITY GRAPH */
         graph = new VisibilityGraph();
-        graph.AddVertex(source);
-        graph.AddVertex(Target);
+        // graph.AddVertex(source);
+        // graph.AddVertex(target);
         foreach (LineRenderer obstacle in obstacles) {
             foreach (Vector3 obstaclePt in obstaclePts) {
                 graph.AddVertex(obstacle.transform.TransformPoint(obstaclePt));
@@ -65,11 +67,12 @@ public class DrawAndNavigate : MonoBehaviour {
 
         /* DRAWING LINE SEGMENTS */
 
-        // Source to Target
-        Path = DrawVisibilityEdge(source, Target, Color.green);
+        // Source to target
+        // Path = DrawVisibilityEdge(source, target, Color.green);
 
-        // Source, Target to obstacles
-        Vector3[] sourceAndTarget = {source, Target};
+        // Source, target to obstacles
+        /*
+        Vector3[] sourceAndTarget = {source, target};
         foreach (Vector3 pt in sourceAndTarget) {
             foreach (LineRenderer obstacle in obstacles) {
                 int obstaclePtIdx = 0;
@@ -96,6 +99,32 @@ public class DrawAndNavigate : MonoBehaviour {
 
                     obstaclePtIdx++;
                 }
+            }
+        }
+        */
+
+        // Between obstacle adjcent reflex points
+        foreach (LineRenderer obstacle in obstacles) {
+            int obstaclePtIdx = 0;
+            Vector3 obstaclePtPrev = obstaclePts[5];
+
+            foreach (Vector3 obstaclePt in obstaclePts) {
+                if (obstaclePtIdx != 4) {
+                    Vector3 obstaclePtWorld
+                        = obstacle.transform.TransformPoint(obstaclePt);
+                    Vector3 obstaclePtWorldPrev
+                        = obstacle.transform.TransformPoint(obstaclePtPrev);
+
+                    Debug.DrawRay(
+                        obstaclePtWorldPrev,
+                        obstaclePtWorld - obstaclePtWorldPrev,
+                        Color.red, 1000, false
+                    );
+
+                    obstaclePtPrev = obstaclePt;
+                }
+
+                obstaclePtIdx++;
             }
         }
 
@@ -168,7 +197,8 @@ public class DrawAndNavigate : MonoBehaviour {
             }
         }
 
-        // Boundaries to Source, Target
+        // Boundaries to Source, target
+        /*
         for (int i = 0; i < iters; i++) {
             foreach (Vector3 pt in sourceAndTarget) {
                 DrawVisibilityEdge(
@@ -180,6 +210,7 @@ public class DrawAndNavigate : MonoBehaviour {
                 );
             }
         }
+        */
     }
 
     private Vector3[] DrawVisibilityEdge(
@@ -243,11 +274,14 @@ public class DrawAndNavigate : MonoBehaviour {
     }
 
     void Update() {
-        if (Path != null) {
+        /*
+        if (Time.time > waitStart + 0.1f && Path != null) {
             float step = Time.deltaTime * Speed;
+            
             transform.position = Vector3.MoveTowards(
                 transform.position, Path[1], step
             );
         }
+        */
     }
 }

@@ -10,7 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7582696582322537625}
   - component: {fileID: 7582696582322537624}
-  - component: {fileID: 7582696582322537626}
+  - component: {fileID: 917946806}
+  - component: {fileID: 1191139613}
+  - component: {fileID: 2335475471767225674}
   m_Layer: 0
   m_Name: L-block
   m_TagString: Untagged
@@ -133,8 +135,8 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 0
   m_Loop: 1
---- !u!68 &7582696582322537626
-EdgeCollider2D:
+--- !u!60 &917946806
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -143,15 +145,59 @@ EdgeCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_EdgeRadius: 0
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   m_Points:
-  - {x: 0.1146012, y: 0.1815185}
-  - {x: 0.10012772, y: -0.5721492}
-  - {x: 1.065933, y: -0.5748688}
-  - {x: 1.065933, y: -0.2545356}
-  - {x: 0.3574252, y: -0.2305134}
-  - {x: 0.3694341, y: 0.1709575}
+    m_Paths:
+    - - {x: 0.34276348, y: -0.23879874}
+      - {x: 0.34206593, y: 0.16689834}
+      - {x: 0.12173277, y: 0.16781358}
+      - {x: 0.12465137, y: -0.5493184}
+      - {x: 1.0371069, y: -0.55792415}
+      - {x: 1.0400255, y: -0.25387448}
+--- !u!50 &1191139613
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7582696582322537631}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!114 &2335475471767225674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7582696582322537631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89c410138ecaa1b48bc7340971b6c9b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settings: {fileID: 0}
+  obstacles: {fileID: 0}
