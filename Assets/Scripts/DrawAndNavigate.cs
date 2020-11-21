@@ -30,10 +30,10 @@ public class DrawAndNavigate : MonoBehaviour {
         obstacles.Add(Obstacle1);
         obstacles.Add(Obstacle2);
         obstacles.Add(Obstacle3);
-        obstacles.Add(Obstacle4);
-        if (!settings.IsRandom || Random.value < 0.5) {
-            Destroy(obstacles[0]);
-            obstacles.RemoveAt(0);
+        if (!settings.IsRandom || Random.value > 0.5f) {
+            obstacles.Add(Obstacle4);
+        } else {
+            Destroy(Obstacle4.gameObject);
         }
 
         Vector3[] obstaclePts = new Vector3[6];
