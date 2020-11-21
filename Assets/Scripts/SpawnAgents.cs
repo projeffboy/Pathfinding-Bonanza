@@ -7,7 +7,7 @@ public class SpawnAgents : MonoBehaviour {
 
     void Start() {
         float randX = Random.Range(-7.25f, 5.25f);
-        float randY = Random.Range(-5.61, 3.69f);
+        float randY = Random.Range(-5.61f, 3.69f);
 
         Instantiate(point, new Vector2(randX, randY), Quaternion.identity);
 
