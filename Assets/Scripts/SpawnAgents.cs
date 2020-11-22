@@ -12,8 +12,8 @@ public class SpawnAgents : MonoBehaviour {
 
     private GameObject AgentContainer;
     private GameObject TargetContainer;
-
     private float waitStart = 0.25f;
+    private int Id = 0;
 
     void Start() {
         Invoke("Initialize", waitStart);
@@ -64,14 +64,14 @@ public class SpawnAgents : MonoBehaviour {
         } else {
             agent = Instantiate(TargetPrefab, TargetContainer.transform);
         }
-        //Physics2D.SyncTransforms();
+        Physics2D.SyncTransforms();
         agent.GetComponent<SpriteRenderer>().color = color;
         bool guarantee = true;
         RaycastHit2D hit = Physics2D.Raycast(
             Vector2.up,
             Vector2.up,
             0
-        );
+        ); // placeholder, Unity won't let me set it to null
 
         while (guarantee || (
             hit.collider != null
@@ -88,7 +88,7 @@ public class SpawnAgents : MonoBehaviour {
             randY = Random.Range(-5.61f, 3.69f);
             rand = new Vector2(randX, randY);
             agent.transform.position = rand;
-            //Physics2D.SyncTransforms();
+            Physics2D.SyncTransforms();
 
             foreach (Vector2 spot in spots) {
                 hit = Physics2D.Raycast(
@@ -129,6 +129,8 @@ public class SpawnAgents : MonoBehaviour {
             agent.GetComponent<Pathing>().DrawVisibilityGraphScript
                 = GetComponent<DrawVisibilityGraph>();
             agent.GetComponent<Pathing>().StatsScript = StatsScript;
+            agent.GetComponent<Pathing>().Id = Id;
+            Id++;
         }
 
         return agent;

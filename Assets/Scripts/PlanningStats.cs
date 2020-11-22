@@ -7,6 +7,7 @@ public class PlanningStats : MonoBehaviour {
     public Text PathsPlannedText;
     public Text ReplanningsText;
     public Text ReachedPlansText;
+    public Text TotalPlanningTimeText;
     public Text SecondsText;
 
     [HideInInspector]
@@ -15,7 +16,9 @@ public class PlanningStats : MonoBehaviour {
     public int Replannings = 0;
     [HideInInspector]
     public int ReachedPlans = 0;
-    
+    [HideInInspector]
+    public float TotalPlanningTime = 0;
+
     private int seconds = 0;
 
     void Start() {
@@ -27,6 +30,8 @@ public class PlanningStats : MonoBehaviour {
         PathsPlannedText.text = "Paths planned: " + PathsPlanned;
         ReplanningsText.text = "Replannings: " + Replannings;
         ReachedPlansText.text = "Reached plans: " + ReachedPlans;
+        TotalPlanningTimeText.text = "Total Planning Time (ms): "
+            + System.Math.Round(TotalPlanningTime * 100, 3);
         SecondsText.text = "Seconds elapsed: " + seconds;
     }
 

@@ -24,7 +24,6 @@ public class DrawVisibilityGraph : MonoBehaviour {
     }
 
     private void Initialize() {
-
         obstacles = new List<LineRenderer>();
         obstacles.Add(Obstacle1);
         obstacles.Add(Obstacle2);

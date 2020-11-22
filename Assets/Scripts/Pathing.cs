@@ -11,7 +11,9 @@ public class Pathing : MonoBehaviour {
     public VisibilityGraph OriginalGraph;
     [HideInInspector]
     public PlanningStats StatsScript;
-    
+    [HideInInspector]
+    public int Id;
+
     private VisibilityGraph Graph;
 
     private float Speed = 1.5f;
@@ -125,7 +127,16 @@ public class Pathing : MonoBehaviour {
             && Graph.AdjList[Target.transform.position].Count > 0
         ) {
             // Debug.Log("A Star time.");
+            // Debug.Log(Time.realtimeSinceStartup);
+            float planningTime = Time.realtimeSinceStartup;
             Path = Graph.AStar();
+            planningTime = Time.realtimeSinceStartup - planningTime;
+            StatsScript.TotalPlanningTime += planningTime;
+            // Debug.Log(Time.realtimeSinceStartup);
         }
+    }
+
+    void OnCollisionEnter2D(Collision2D col) {
+        Debug.Log(Id);
     }
 }
