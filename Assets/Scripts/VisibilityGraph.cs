@@ -100,10 +100,10 @@ public class VisibilityGraph {
 		// (float, Vector2, bool) = (weight, prev vertex, isVisited, heuristic)
 		Q.Add(Source, Tuple.Create(
             0f, Source, false, Vector2.Distance(Source, Target)
-        ));
+        )); // weights are based off of euclidean distance between the two nodes
 		var archivedQ = new Dictionary<
             Vector2, Tuple<float, Vector2, bool, float
-        >>();
+        >>(); // for backtracking
 		
 		while(Q.Count != 0) {
 			Vector2 u = Min(Q);
@@ -124,7 +124,7 @@ public class VisibilityGraph {
 					} else {
 						Q.Add(v, Tuple.Create(
                             w, u, false, Vector2.Distance(v, Target)
-                        ));
+                        )); // heuristic is based off of euclidean distance between this node and target
 					}
 				}
 			}
@@ -145,6 +145,7 @@ public class VisibilityGraph {
 			archivedQ.Add(pair.Key, pair.Value);
 		}
 		
+        // Backtrack to the get the path
 		Vector2 prevPathVertex = archivedQ[Target].Item2;
         List<Vector2> path = new List<Vector2>();
         path.Add(Target);
@@ -168,6 +169,7 @@ public class VisibilityGraph {
 		foreach (
             KeyValuePair<Vector2, Tuple<float, Vector2, bool, float>> pair in Q
         ) {
+            // this is what makes it A*, how we obtain the minimum in "priority queue"
 			if (pair.Value.Item1 + pair.Value.Item4 < weightAndHeuristic) {
 				weightAndHeuristic = pair.Value.Item1 + pair.Value.Item4;
 				u = pair.Key;

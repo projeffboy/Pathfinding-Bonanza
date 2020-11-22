@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DrawVisibilityGraph : MonoBehaviour {
-    public Settings settings;
     public float BoundaryTolerance = 0.75f;
     public LineRenderer Boundaries;
     public LineRenderer Obstacle1;
@@ -20,7 +19,7 @@ public class DrawVisibilityGraph : MonoBehaviour {
     private Vector3[] obstaclePts;
 
     void Start() {
-        Invoke("Initialize", WaitStart);
+        Invoke("Initialize", WaitStart); // must wait for obstacles to spawn first
     }
 
     private void Initialize() {
@@ -28,7 +27,7 @@ public class DrawVisibilityGraph : MonoBehaviour {
         obstacles.Add(Obstacle1);
         obstacles.Add(Obstacle2);
         obstacles.Add(Obstacle3);
-        if (!settings.IsRandom || Random.value > 0.5f) {
+        if (Random.value > 0.5f) { // so we have 3-4 obstacles
             obstacles.Add(Obstacle4);
         } else {
             Destroy(Obstacle4.gameObject);
@@ -42,7 +41,7 @@ public class DrawVisibilityGraph : MonoBehaviour {
         int[] boundaryReflexPtsIdx = {
             0, 3, 5, 8, 9, 12, 13, 16, 18,
             21, 22, 25, 27, 30, 31, 34, 35, 38, 41
-        };
+        }; // boundary linerenderer vertices
         int iters = boundaryReflexPtsIdx.Length;
         boundaryReflexPts = new Vector3[iters];
         int count = 0;
@@ -52,10 +51,9 @@ public class DrawVisibilityGraph : MonoBehaviour {
         }
 
         /* ADD VERTICES TO VISIBILITY GRAPH */
+        
         Graph = new VisibilityGraph();
 
-        // Graph.AddVertex(source);
-        // Graph.AddVertex(Target);
         foreach (LineRenderer obstacle in obstacles) {
             foreach (Vector3 obstaclePt in obstaclePts) {
                 Graph.AddVertex(
@@ -78,7 +76,7 @@ public class DrawVisibilityGraph : MonoBehaviour {
             Vector3 obstaclePtPrev = obstaclePts[5];
 
             foreach (Vector3 obstaclePt in obstaclePts) {
-                if (obstaclePtIdx != 4) {
+                if (obstaclePtIdx != 4) { // 4th point is not reflex
                     Vector3 obstaclePtWorld
                         = obstacle.transform.TransformPoint(obstaclePt);
                     Vector3 obstaclePtWorldPrev
@@ -134,8 +132,7 @@ public class DrawVisibilityGraph : MonoBehaviour {
                 );
             }
         }
-
-        DrawVisibilityEdge(
+        DrawVisibilityEdge( // close the loop
             boundaryReflexPts[iters - 1],
             boundaryReflexPts[0],
             colorAAA,
@@ -149,7 +146,7 @@ public class DrawVisibilityGraph : MonoBehaviour {
                 int obstaclePtIdx = 0;
 
                 foreach (Vector3 obstaclePt in obstaclePts) {
-                    if (obstaclePtIdx != 4) {
+                    if (obstaclePtIdx != 4) { // 4th point is not reflex
                         Vector3 obstaclePtWorld
                             = obstacle.transform.TransformPoint(obstaclePt);
 
@@ -176,6 +173,9 @@ public class DrawVisibilityGraph : MonoBehaviour {
         bool bitangence = false, bool considerBoundaries = false,
         bool addEdge = true, bool hideLine = false
     ) {
+
+        /* FORWARDS RAYCAST */
+
         bool hitCollider = false;
 
         RaycastHit2D hit = Physics2D.Raycast(
@@ -194,7 +194,7 @@ public class DrawVisibilityGraph : MonoBehaviour {
         ) {
             hitCollider = false;
         }
-        /*
+        /* NOT AS GOOD CODE
         RaycastHit2D[] hits = Physics2D.RaycastAll(
             from,
             to - from,
@@ -218,6 +218,8 @@ public class DrawVisibilityGraph : MonoBehaviour {
         }
         */
 
+        /* BACKWARDS RAYCAST */
+
         bool backwardsHitCollider = false;
         RaycastHit2D backwardsHit;
         if (bitangence) {
@@ -239,7 +241,7 @@ public class DrawVisibilityGraph : MonoBehaviour {
                 backwardsHitCollider = false;
             }
 
-            /*
+            /* NOT AS GOOD CODE
             RaycastHit2D[] backwardsHits = Physics2D.RaycastAll(
                 from,
                 -(to - from),
@@ -265,6 +267,8 @@ public class DrawVisibilityGraph : MonoBehaviour {
             }
             */
         }
+
+        /* FINAL EVALUATION */
 
         if (!hitCollider && !backwardsHitCollider) {
             if (!hideLine) {
@@ -314,10 +318,11 @@ public class DrawVisibilityGraph : MonoBehaviour {
                 Vector3 obstaclePtPrev = obstaclePts[5];
 
                 foreach (Vector3 obstaclePt in obstaclePts) {
-                    if (obstaclePtIdx != 4) {
+                    if (obstaclePtIdx != 4) { // 4th point is not reflex
                         Vector3 obstaclePtWorld
                             = obstacle.transform.TransformPoint(obstaclePt);
 
+                        // Between obstacle point and source/target
                         Vector3[] vertices = DrawVisibilityEdge(
                             pt, obstaclePtWorld,
                             Color.red, false, true, false, true

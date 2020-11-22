@@ -26,19 +26,21 @@ public class PlanningStats : MonoBehaviour {
         StartCoroutine(UpdateTimer());
     }
 
-    public void UpdateTexts() {
+    IEnumerator UpdateTimer() {
+        while (true) {
+            yield return new WaitForSeconds(1);
+            seconds++;
+
+            UpdateTexts();
+        }
+    }
+
+    private void UpdateTexts() {
         PathsPlannedText.text = "Paths planned: " + PathsPlanned;
         ReplanningsText.text = "Replannings: " + Replannings;
         ReachedPlansText.text = "Reached plans: " + ReachedPlans;
         TotalPlanningTimeText.text = "Total Planning Time (ms): "
             + System.Math.Round(TotalPlanningTime * 100, 3);
         SecondsText.text = "Seconds elapsed: " + seconds;
-    }
-
-    IEnumerator UpdateTimer() {
-        while (true) {
-            yield return new WaitForSeconds(1);
-            seconds++;
-        }
     }
 }

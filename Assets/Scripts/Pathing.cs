@@ -12,7 +12,7 @@ public class Pathing : MonoBehaviour {
     [HideInInspector]
     public PlanningStats StatsScript;
     [HideInInspector]
-    public int Id;
+    public int Id; // originally gonna prioritize agents with ids but nah
 
     private VisibilityGraph Graph;
 
@@ -21,31 +21,49 @@ public class Pathing : MonoBehaviour {
     private List<Vector2> Path;
     private Color color;
     private int nthNodeInPath = 0; // not counting source node
-    private bool waiting = false;
+    private bool finished = false;
+    private bool impasse = false;
     private float waitingTimer = 0;
-    private int forcedWait = 0;
+    private int replans = 0;
+    private float cooldown = 5;
 
     void Start() {
         color = GetComponent<SpriteRenderer>().color;
 
-        Recalculate();
+        Recalculate(true);
         StatsScript.PathsPlanned++;
-        StatsScript.UpdateTexts();
     }
 
     void Update() {
         if (Path.Count == 0) {
+            cooldown -= Time.deltaTime;
+            if (cooldown <= 0) {
+                Recalculate(true);
+                StatsScript.PathsPlanned++;
+                cooldown = 5;
+            }
+
             return;
         }
 
-        if (waiting) {
+        if (finished || impasse) {
             waitingTimer -= Time.deltaTime;
 
+            if (impasse && Path.Count > nthNodeInPath) {
+                float step = Time.deltaTime * Speed;
+
+                // give the agents a chance to collide again
+                transform.position = Vector2.MoveTowards(
+                    transform.position, -Path[nthNodeInPath], step / 16
+                );
+            }
+
             if (waitingTimer <= 0) {
-                waiting = false;
-                nthNodeInPath = 0;
-                Recalculate();
+                Recalculate(finished);
                 StatsScript.PathsPlanned++;
+                nthNodeInPath = 0;
+                finished = false;
+                impasse = false;
             }
         } else if (Path.Count > nthNodeInPath) {
             float step = Time.deltaTime * Speed;
@@ -61,25 +79,24 @@ public class Pathing : MonoBehaviour {
             ) {
                 nthNodeInPath++;
             }
-        } else {
-            waiting = true;
-            waitingTimer = 0.5f;
+        } else { // when Path.Count == nthNodeInPath
+            finished = true;
+            waitingTimer = 1f;
             StatsScript.ReachedPlans++;
-            StatsScript.UpdateTexts();
         }
     }
 
-    private void Recalculate() {
-        if (Target != null) {
-            Destroy(Target);
-        }
-
+    private void Recalculate(bool changeTarget) {
         List<GameObject> agents = new List<GameObject>();
         agents.Add(gameObject);
 
 
         // Source to Target
-        Target = SpawnAgentsScript.Spawn(false, agents, color);
+        if (changeTarget || Target != null) {
+            Destroy(Target);
+            Target = SpawnAgentsScript.Spawn(false, agents, color);
+            replans = 0; // can't forget this
+        }
         var edge = DrawVisibilityGraphScript.DrawVisibilityEdge(
             transform.position, Target.transform.position,
             Color.green, false, true, false, true
@@ -89,10 +106,11 @@ public class Pathing : MonoBehaviour {
             Path.Add(edge[1]);
         }
 
-        if (Path.Count > 0) {
+        if (Path.Count > 0) { // if there's a direct path between two points, no need to even compute A*, just walk the path!
             return;
         }
 
+        // Clone a fresh new graph
         Graph = new VisibilityGraph();
         Graph.Vertices = OriginalGraph.ClonedVertices();
         Graph.AdjList = OriginalGraph.ClonedAdjList();
@@ -103,6 +121,7 @@ public class Pathing : MonoBehaviour {
 
         // Graph.PrintNumEdges();
 
+        // Edges from source/target to boundaries/obstacles
         DrawVisibilityGraphScript.DrawFromBoundaries(
             transform.position, Target.transform.position, color, Graph
         );
@@ -139,13 +158,17 @@ public class Pathing : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D other) {
         if (other.gameObject.CompareTag("Agent")) {
-            int otherId = other.gameObject.GetComponent<Pathing>().Id;
-            if (Id > otherId) {
-                // Debug.Log(Id + ", " + otherId);
-                waiting = true;
-                waitingTimer = 0.5f;
+            impasse = true;
+            waitingTimer = 0.5f;
+            replans++;
 
-                forcedWait++;
+            if (replans >= 3) { // new plan
+                impasse = false;
+                finished = true;
+                waitingTimer = 1f;
+                StatsScript.PathsPlanned++;
+            } else {
+                StatsScript.Replannings++;
             }
         }
     }

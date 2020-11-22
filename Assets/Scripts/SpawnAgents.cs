@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SpawnAgents : MonoBehaviour {
-    public Settings settings;
     public GameObject AgentPrefab;
     public GameObject TargetPrefab;
     public int NumberOfAgents = 2;
@@ -33,10 +32,6 @@ public class SpawnAgents : MonoBehaviour {
             Color.yellow
         };
 
-        if (!settings.IsRandom) {
-            return;
-        }
-
         AgentContainer = new GameObject("Agent Container");
         TargetContainer = new GameObject("Target Container");
 
@@ -45,7 +40,7 @@ public class SpawnAgents : MonoBehaviour {
         }
     }
 
-    public GameObject Spawn(
+    public GameObject Spawn( // Purpose is to make sure no overlap
         bool isSource, List<GameObject> agents, Color color
     ) {
         Vector2[] spots = {
@@ -167,6 +162,7 @@ public class SpawnAgents : MonoBehaviour {
         }
         */
 
+        // Passing down graphs, stats, id
         if (isSource) {
             VisibilityGraph graph = GetComponent<DrawVisibilityGraph>().Graph;
             VisibilityGraph graphCopy = new VisibilityGraph();
@@ -199,6 +195,7 @@ public class SpawnAgents : MonoBehaviour {
         return false;
     }
 
+    // Make sure agents don't overlap
     private bool Touching(GameObject agent, List<GameObject> agents) {
         foreach (GameObject agentToCompare in agents) {
             if (
