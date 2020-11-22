@@ -87,7 +87,7 @@ public class DrawVisibilityGraph : MonoBehaviour {
                     Debug.DrawRay(
                         obstaclePtWorldPrev,
                         obstaclePtWorld - obstaclePtWorldPrev,
-                        Color.red, 1000, false
+                        Color.red, 1000
                     );
                     Graph.AddEdge(obstaclePtWorldPrev, obstaclePtWorld);
 
@@ -177,11 +177,13 @@ public class DrawVisibilityGraph : MonoBehaviour {
         bool addEdge = true, bool hideLine = false
     ) {
         bool hitCollider = false;
+
         RaycastHit2D hit = Physics2D.Raycast(
             from,
             to - from,
             considerBoundaries
-            ? Vector3.Distance(to, from) + BoundaryTolerance : Mathf.Infinity
+            ? Vector3.Distance(to, from) + BoundaryTolerance : Mathf.Infinity,
+            1, -0.5f, 0.5f
         );
         if (hit.collider != null) {
             hitCollider = true;
@@ -192,6 +194,29 @@ public class DrawVisibilityGraph : MonoBehaviour {
         ) {
             hitCollider = false;
         }
+        /*
+        RaycastHit2D[] hits = Physics2D.RaycastAll(
+            from,
+            to - from,
+            considerBoundaries
+            ? Vector3.Distance(to, from) + BoundaryTolerance : Mathf.Infinity
+        );
+        foreach (RaycastHit2D hit in hits) {
+            if (!hit.collider.gameObject.CompareTag("Agent")) {
+                if (hit.collider != null) {
+                    hitCollider = true;
+                }
+                if (
+                    !considerBoundaries
+                    && hit.collider.gameObject.CompareTag("Boundaries")
+                ) {
+                    hitCollider = false;
+                }
+
+                break;
+            }
+        }
+        */
 
         bool backwardsHitCollider = false;
         RaycastHit2D backwardsHit;
@@ -199,7 +224,8 @@ public class DrawVisibilityGraph : MonoBehaviour {
             backwardsHit = Physics2D.Raycast(
                 from,
                 -(to - from),
-                considerBoundaries ? BoundaryTolerance : Mathf.Infinity
+                considerBoundaries ? BoundaryTolerance : Mathf.Infinity,
+                1, -0.5f, 0.5f
             );
             
             if (backwardsHit.collider != null) {
@@ -212,6 +238,32 @@ public class DrawVisibilityGraph : MonoBehaviour {
             ) {
                 backwardsHitCollider = false;
             }
+
+            /*
+            RaycastHit2D[] backwardsHits = Physics2D.RaycastAll(
+                from,
+                -(to - from),
+                considerBoundaries ? BoundaryTolerance : Mathf.Infinity
+            );
+
+            foreach (RaycastHit2D backwardsHit in backwardsHits) {
+                if (!backwardsHit.collider.gameObject.CompareTag("Agent")) {
+                    if (backwardsHit.collider != null) {
+                        backwardsHitCollider = true;
+                    }
+
+                    if (
+                        !considerBoundaries
+                        && backwardsHit.collider.gameObject
+                            .CompareTag("Boundaries")
+                    ) {
+                        backwardsHitCollider = false;
+                    }
+
+                    break;
+                }
+            }
+            */
         }
 
         if (!hitCollider && !backwardsHitCollider) {
@@ -219,7 +271,7 @@ public class DrawVisibilityGraph : MonoBehaviour {
                 Debug.DrawRay(
                     from,
                     to - from,
-                    color, 1000, false
+                    color, 1000
                 );
             }
             if (addEdge) {
@@ -281,7 +333,7 @@ public class DrawVisibilityGraph : MonoBehaviour {
                         Debug.DrawRay(
                             obstaclePtWorldPrev,
                             obstaclePtWorld - obstaclePtWorldPrev,
-                            Color.red, 1000, false
+                            Color.red, 1000
                         );
 
                         obstaclePtPrev = obstaclePt;

@@ -21,8 +21,9 @@ public class Pathing : MonoBehaviour {
     private List<Vector2> Path;
     private Color color;
     private int nthNodeInPath = 0; // not counting source node
-    private float waitForASecond = 0;
     private bool waiting = false;
+    private float waitingTimer = 0;
+    private int forcedWait = 0;
 
     void Start() {
         color = GetComponent<SpriteRenderer>().color;
@@ -34,10 +35,19 @@ public class Pathing : MonoBehaviour {
 
     void Update() {
         if (Path.Count == 0) {
-            return;    
+            return;
         }
 
-        if (Path.Count > nthNodeInPath) {
+        if (waiting) {
+            waitingTimer -= Time.deltaTime;
+
+            if (waitingTimer <= 0) {
+                waiting = false;
+                nthNodeInPath = 0;
+                Recalculate();
+                StatsScript.PathsPlanned++;
+            }
+        } else if (Path.Count > nthNodeInPath) {
             float step = Time.deltaTime * Speed;
             
             //Debug.Log(transform.position + ", " + Path[1]);
@@ -51,16 +61,11 @@ public class Pathing : MonoBehaviour {
             ) {
                 nthNodeInPath++;
             }
-        } else if (waitForASecond >= 1) {
-            if (!waiting) {
-                waiting = true;
-                Recalculate();
-                StatsScript.PathsPlanned++;
-                StatsScript.ReachedPlans++;
-                StatsScript.UpdateTexts();
-            }
         } else {
-            waitForASecond += Time.deltaTime;
+            waiting = true;
+            waitingTimer = 0.5f;
+            StatsScript.ReachedPlans++;
+            StatsScript.UpdateTexts();
         }
     }
 
@@ -83,10 +88,6 @@ public class Pathing : MonoBehaviour {
         if (edge != null) {
             Path.Add(edge[1]);
         }
-
-        nthNodeInPath = 0;
-        waitForASecond = 0;
-        waiting = false;
 
         if (Path.Count > 0) {
             return;
@@ -136,7 +137,16 @@ public class Pathing : MonoBehaviour {
         }
     }
 
-    void OnCollisionEnter2D(Collision2D col) {
-        Debug.Log(Id);
+    void OnTriggerEnter2D(Collider2D other) {
+        if (other.gameObject.CompareTag("Agent")) {
+            int otherId = other.gameObject.GetComponent<Pathing>().Id;
+            if (Id > otherId) {
+                // Debug.Log(Id + ", " + otherId);
+                waiting = true;
+                waitingTimer = 0.5f;
+
+                forcedWait++;
+            }
+        }
     }
 }

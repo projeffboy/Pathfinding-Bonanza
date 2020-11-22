@@ -64,9 +64,9 @@ public class SpawnAgents : MonoBehaviour {
         } else {
             agent = Instantiate(TargetPrefab, TargetContainer.transform);
         }
-        Physics2D.SyncTransforms();
         agent.GetComponent<SpriteRenderer>().color = color;
         bool guarantee = true;
+
         RaycastHit2D hit = Physics2D.Raycast(
             Vector2.up,
             Vector2.up,
@@ -88,14 +88,16 @@ public class SpawnAgents : MonoBehaviour {
             randY = Random.Range(-5.61f, 3.69f);
             rand = new Vector2(randX, randY);
             agent.transform.position = rand;
-            Physics2D.SyncTransforms();
+            // Physics2D.SyncTransforms();
 
             foreach (Vector2 spot in spots) {
                 hit = Physics2D.Raycast(
                     rand,
                     spot - rand,
-                    Vector2.Distance(spot, rand)
+                    Vector2.Distance(spot, rand),
+                    1, -0.5f, 0.5f
                 );
+
                 /*
                 Debug.Log(hit.collider);
                 Debug.DrawRay(
@@ -104,6 +106,7 @@ public class SpawnAgents : MonoBehaviour {
                     color, 1000, false
                 );
                 */
+
 
                 if (!(
                     hit.collider != null
@@ -116,6 +119,53 @@ public class SpawnAgents : MonoBehaviour {
                 }
             }
         }
+
+
+        /* FAILED ATTEMPT AT RAYCASTHITALL
+        bool fail = true;
+        while (fail || IsPointInObstacle(rand) || Touching(agent, agents)) {
+            randX = Random.Range(-7.25f, 5.25f);
+            randY = Random.Range(-5.61f, 3.69f);
+            rand = new Vector2(randX, randY);
+            agent.transform.position = rand;
+
+            foreach (Vector2 spot in spots) {
+                RaycastHit2D[] hits = Physics2D.RaycastAll(
+                    rand,
+                    spot - rand,
+                    Vector2.Distance(spot, rand)
+                );
+
+                int falseCalls = 0;
+                bool exit = false;
+                foreach (RaycastHit2D hit in hits) {
+                    if (hit.collider == null) {
+                        fail = false;
+                        break;
+                    } else if (!hit.collider.gameObject.CompareTag("Agent")) {
+                        Debug.Log(hit.collider);
+                        if (
+                            hit.collider.gameObject.CompareTag("Barbed Wire")
+                            || hit.collider.gameObject.CompareTag("Boundaries")
+                        ) {
+                            exit = true;
+                        } else {
+                            fail = false;
+                        }
+                        break;
+                    } else {
+                        falseCalls++;
+                    }
+                }
+
+                if (!exit) {
+                    if (hits.Length - falseCalls <= 0) {
+                        fail = false;
+                    }
+                }
+            }
+        }
+        */
 
         if (isSource) {
             VisibilityGraph graph = GetComponent<DrawVisibilityGraph>().Graph;

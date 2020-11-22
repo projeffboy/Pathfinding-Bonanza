@@ -694,7 +694,7 @@ MonoBehaviour:
     type: 3}
   TargetPrefab: {fileID: 4877103403581483816, guid: 268e375443bc30f4b81cd88d24686733,
     type: 3}
-  NumberOfAgents: 32
+  NumberOfAgents: 16
   Obstacles: {fileID: 1964976694}
   StatsScript: {fileID: 218645348}
 --- !u!20 &519420031
