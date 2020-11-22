@@ -8,6 +8,7 @@ public class SpawnAgents : MonoBehaviour {
     public GameObject TargetPrefab;
     public int NumberOfAgents = 2;
     public GameObject Obstacles;
+
     private GameObject AgentContainer;
     private GameObject TargetContainer;
 
@@ -57,8 +58,6 @@ public class SpawnAgents : MonoBehaviour {
         GameObject agent;
         if (isSource) {
             agent = Instantiate(AgentPrefab, AgentContainer.transform);
-            agent.GetComponent<Pathing>().SpawnAgentsScript
-                = GetComponent<SpawnAgents>();
         } else {
             agent = Instantiate(TargetPrefab, TargetContainer.transform);
         }
@@ -111,6 +110,19 @@ public class SpawnAgents : MonoBehaviour {
                     break;
                 }
             }
+        }
+
+        if (isSource) {
+            VisibilityGraph graph = GetComponent<DrawVisibilityGraph>().Graph;
+            VisibilityGraph graphCopy = new VisibilityGraph();
+            graphCopy.Vertices = graph.ClonedVertices();
+            graphCopy.AdjList = graph.ClonedAdjList();
+
+            agent.GetComponent<Pathing>().SpawnAgentsScript
+                = GetComponent<SpawnAgents>();
+            agent.GetComponent<Pathing>().Graph = graphCopy;
+            agent.GetComponent<Pathing>().DrawVisibilityGraphScript
+                = GetComponent<DrawVisibilityGraph>();
         }
 
         return agent;
