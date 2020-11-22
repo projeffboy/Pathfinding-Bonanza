@@ -90,6 +90,7 @@ public class DrawVisibilityGraph : MonoBehaviour {
                         obstaclePtWorld - obstaclePtWorldPrev,
                         Color.red, 1000, false
                     );
+                    Graph.AddEdge(obstaclePtWorldPrev, obstaclePtWorld);
 
                     obstaclePtPrev = obstaclePt;
                 }

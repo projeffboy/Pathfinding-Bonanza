@@ -9,6 +9,8 @@ public class Pathing : MonoBehaviour {
     public DrawVisibilityGraph DrawVisibilityGraphScript;
     [HideInInspector]
     public VisibilityGraph OriginalGraph;
+    [HideInInspector]
+    public PlanningStats StatsScript;
     
     private VisibilityGraph Graph;
 
@@ -17,13 +19,15 @@ public class Pathing : MonoBehaviour {
     private List<Vector2> Path;
     private Color color;
     private int nthNodeInPath = 0; // not counting source node
-    private float WaitForASecond = 0;
+    private float waitForASecond = 0;
     private bool waiting = false;
 
     void Start() {
         color = GetComponent<SpriteRenderer>().color;
 
         Recalculate();
+        StatsScript.PathsPlanned++;
+        StatsScript.UpdateTexts();
     }
 
     void Update() {
@@ -45,13 +49,16 @@ public class Pathing : MonoBehaviour {
             ) {
                 nthNodeInPath++;
             }
-        } else if (WaitForASecond >= 1) {
+        } else if (waitForASecond >= 1) {
             if (!waiting) {
                 waiting = true;
                 Recalculate();
+                StatsScript.PathsPlanned++;
+                StatsScript.ReachedPlans++;
+                StatsScript.UpdateTexts();
             }
         } else {
-            WaitForASecond += Time.deltaTime;
+            waitForASecond += Time.deltaTime;
         }
     }
 
@@ -76,6 +83,7 @@ public class Pathing : MonoBehaviour {
         }
 
         nthNodeInPath = 0;
+        waitForASecond = 0;
         waiting = false;
 
         if (Path.Count > 0) {

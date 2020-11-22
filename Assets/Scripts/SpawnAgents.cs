@@ -8,6 +8,7 @@ public class SpawnAgents : MonoBehaviour {
     public GameObject TargetPrefab;
     public int NumberOfAgents = 2;
     public GameObject Obstacles;
+    public PlanningStats StatsScript;
 
     private GameObject AgentContainer;
     private GameObject TargetContainer;
@@ -51,7 +52,7 @@ public class SpawnAgents : MonoBehaviour {
             new Vector2(-2.94f, 0.66f),
             new Vector2(0.01f, 0.66f),
             new Vector2(2.22f, 0.66f),
-            new Vector2(-1.96f, -1.68f),
+            new Vector2(-1.96f, -1.68f)
         };
         
         float randX;
@@ -62,18 +63,14 @@ public class SpawnAgents : MonoBehaviour {
             agent = Instantiate(AgentPrefab, AgentContainer.transform);
         } else {
             agent = Instantiate(TargetPrefab, TargetContainer.transform);
-
-            /*
-            for () {
-                Physics2D.
-            }
-            */
         }
+        //Physics2D.SyncTransforms();
+        agent.GetComponent<SpriteRenderer>().color = color;
         bool guarantee = true;
         RaycastHit2D hit = Physics2D.Raycast(
             Vector2.up,
             Vector2.up,
-            1
+            0
         );
 
         while (guarantee || (
@@ -91,7 +88,7 @@ public class SpawnAgents : MonoBehaviour {
             randY = Random.Range(-5.61f, 3.69f);
             rand = new Vector2(randX, randY);
             agent.transform.position = rand;
-            agent.GetComponent<SpriteRenderer>().color = color;
+            //Physics2D.SyncTransforms();
 
             foreach (Vector2 spot in spots) {
                 hit = Physics2D.Raycast(
@@ -104,17 +101,17 @@ public class SpawnAgents : MonoBehaviour {
                 Debug.DrawRay(
                     rand,
                     spot - rand,
-                    colors[i % colors.Length], 1000, false
+                    color, 1000, false
                 );
                 */
 
-                if (
-                    !(hit.collider != null
+                if (!(
+                    hit.collider != null
                     && (
                         hit.collider.gameObject.CompareTag("Barbed Wire")
                         || hit.collider.gameObject.CompareTag("Boundaries")
-                    ))
-                ) {
+                    )
+                )) {
                     break;
                 }
             }
@@ -131,6 +128,7 @@ public class SpawnAgents : MonoBehaviour {
                 = GetComponent<SpawnAgents>();
             agent.GetComponent<Pathing>().DrawVisibilityGraphScript
                 = GetComponent<DrawVisibilityGraph>();
+            agent.GetComponent<Pathing>().StatsScript = StatsScript;
         }
 
         return agent;

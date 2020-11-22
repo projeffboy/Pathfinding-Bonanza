@@ -113,3 +113,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SpawnAgentsScript: {fileID: 0}
   DrawVisibilityGraphScript: {fileID: 0}
+  StatsScript: {fileID: 0}

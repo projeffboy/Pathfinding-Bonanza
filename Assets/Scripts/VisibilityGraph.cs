@@ -96,10 +96,14 @@ public class VisibilityGraph {
     }
 	
 	public List<Vector2> AStar() {
-		var Q = new Dictionary<Vector2, Tuple<float, Vector2, bool>>();
-		// (float, Vector2, bool) = (weight, prev vertex, isVisited)
-		Q.Add(Source, Tuple.Create(0f, Source, false));
-		var archivedQ = new Dictionary<Vector2, Tuple<float, Vector2, bool>>();
+		var Q = new Dictionary<Vector2, Tuple<float, Vector2, bool, float>>();
+		// (float, Vector2, bool) = (weight, prev vertex, isVisited, heuristic)
+		Q.Add(Source, Tuple.Create(
+            0f, Source, false, Vector2.Distance(Source, Target)
+        ));
+		var archivedQ = new Dictionary<
+            Vector2, Tuple<float, Vector2, bool, float
+        >>();
 		
 		while(Q.Count != 0) {
 			Vector2 u = Min(Q);
@@ -116,14 +120,16 @@ public class VisibilityGraph {
 						}
 
 
-						Q[v] = Tuple.Create(w, prev, Q[v].Item3);
+						Q[v] = Tuple.Create(w, prev, Q[v].Item3, Q[v].Item4);
 					} else {
-						Q.Add(v, Tuple.Create(w, u, false));
+						Q.Add(v, Tuple.Create(
+                            w, u, false, Vector2.Distance(v, Target)
+                        ));
 					}
 				}
 			}
 			
-			Q[u] = Tuple.Create(Q[u].Item1, Q[u].Item2, true);
+			Q[u] = Tuple.Create(Q[u].Item1, Q[u].Item2, true, Q[u].Item4);
 			archivedQ.Add(u, Q[u]);
 			Q.Remove(u);
 			
@@ -133,7 +139,9 @@ public class VisibilityGraph {
 			}
 		}
 		
-		foreach (KeyValuePair<Vector2, Tuple<float, Vector2, bool>> pair in Q) {
+		foreach (
+            KeyValuePair<Vector2, Tuple<float, Vector2, bool, float>> pair in Q
+        ) {
 			archivedQ.Add(pair.Key, pair.Value);
 		}
 		
@@ -153,13 +161,15 @@ public class VisibilityGraph {
 	}
 	
 	private Vector2 Min(
-        Dictionary<Vector2, Tuple<float, Vector2, bool>> Q
+        Dictionary<Vector2, Tuple<float, Vector2, bool, float>> Q
     ) {
 		Vector2 u = new Vector2(0, 0);
-		float smallestWeight = float.MaxValue;
-		foreach (KeyValuePair<Vector2, Tuple<float, Vector2, bool>> pair in Q) {
-			if (pair.Value.Item1 < smallestWeight) {
-				smallestWeight = pair.Value.Item1;
+		float weightAndHeuristic = float.MaxValue;
+		foreach (
+            KeyValuePair<Vector2, Tuple<float, Vector2, bool, float>> pair in Q
+        ) {
+			if (pair.Value.Item1 + pair.Value.Item4 < weightAndHeuristic) {
+				weightAndHeuristic = pair.Value.Item1 + pair.Value.Item4;
 				u = pair.Key;
 			}
 		}
