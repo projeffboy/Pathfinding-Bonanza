@@ -139,6 +139,7 @@ public class VisibilityGraph {
 		
 		Vector2 prevPathVertex = archivedQ[Target].Item2;
         List<Vector2> path = new List<Vector2>();
+        path.Add(Target);
         path.Add(prevPathVertex);
 		while (prevPathVertex != Source) {
 			// Debug.Log(prevPathVertex);

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Boundaries
   - Barbed Wire
+  - Agent
   layers:
   - Default
   - TransparentFX

@@ -44,7 +44,9 @@ public class SpawnAgents : MonoBehaviour {
         }
     }
 
-    public GameObject Spawn(bool isSource, List<GameObject> agents, Color color) {
+    public GameObject Spawn(
+        bool isSource, List<GameObject> agents, Color color
+    ) {
         Vector2[] spots = {
             new Vector2(-2.94f, 0.66f),
             new Vector2(0.01f, 0.66f),
@@ -60,6 +62,12 @@ public class SpawnAgents : MonoBehaviour {
             agent = Instantiate(AgentPrefab, AgentContainer.transform);
         } else {
             agent = Instantiate(TargetPrefab, TargetContainer.transform);
+
+            /*
+            for () {
+                Physics2D.
+            }
+            */
         }
         bool guarantee = true;
         RaycastHit2D hit = Physics2D.Raycast(
@@ -117,10 +125,10 @@ public class SpawnAgents : MonoBehaviour {
             VisibilityGraph graphCopy = new VisibilityGraph();
             graphCopy.Vertices = graph.ClonedVertices();
             graphCopy.AdjList = graph.ClonedAdjList();
+            agent.GetComponent<Pathing>().OriginalGraph = graphCopy;
 
             agent.GetComponent<Pathing>().SpawnAgentsScript
                 = GetComponent<SpawnAgents>();
-            agent.GetComponent<Pathing>().Graph = graphCopy;
             agent.GetComponent<Pathing>().DrawVisibilityGraphScript
                 = GetComponent<DrawVisibilityGraph>();
         }
@@ -145,7 +153,7 @@ public class SpawnAgents : MonoBehaviour {
         foreach (GameObject agentToCompare in agents) {
             if (
                 (agentToCompare.transform.position - agent.transform.position)
-                    .sqrMagnitude < 0.0324 // 0.18^2
+                    .sqrMagnitude < 0.04 // 0.2^2
             ) {
                 return true;
             }
